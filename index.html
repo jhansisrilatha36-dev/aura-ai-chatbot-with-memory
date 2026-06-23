@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AURA // Custom AI Chatbot with Memory</title>
+    <!-- Premium Google Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Style Sheet -->
+    <link rel="stylesheet" href="style.css">
+    <!-- FontAwesome for Premium Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Animated background glowing shapes -->
+    <div class="bg-glow blob-1"></div>
+    <div class="bg-glow blob-2"></div>
+    <div class="bg-glow blob-3"></div>
+
+    <div class="app-container">
+        <!-- Error Banner / Alert Toast -->
+        <div id="error-banner" class="error-banner hidden">
+            <div class="error-content">
+                <i class="fa-solid fa-triangle-exclamation error-icon"></i>
+                <div class="error-text-container">
+                    <span class="error-title">System Error</span>
+                    <span id="error-message" class="error-desc">API Key is missing or invalid. Please check your server setup.</span>
+                </div>
+            </div>
+            <button id="close-error" class="close-error-btn"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+
+        <!-- App Header -->
+        <header class="app-header">
+            <div class="header-left">
+                <div class="logo-area">
+                    <div class="logo-icon">
+                        <i class="fa-solid fa-brain-circuit brain-glow"></i>
+                    </div>
+                    <div class="logo-text">
+                        <h1>AURA</h1>
+                        <span class="logo-subtitle">AI Chatbot with Memory</span>
+                    </div>
+                </div>
+                <div class="status-indicator-container">
+                    <span id="status-dot" class="status-dot offline"></span>
+                    <span id="status-text" class="status-text">Connecting...</span>
+                </div>
+            </div>
+            
+            <div class="header-right">
+                <!-- Model Selector Dropdown -->
+                <div class="model-select-wrapper">
+                    <label for="model-selector" class="model-label">Model:</label>
+                    <select id="model-selector" class="model-selector">
+                        <option value="gemini-2.5-flash" selected>Gemini 2.5 Flash (Fast)</option>
+                        <option value="gemini-2.5-pro">Gemini 2.5 Pro (Reasoning)</option>
+                        <option value="gemini-1.5-flash">Gemini 1.5 Flash</option>
+                        <option value="gemini-1.5-pro">Gemini 1.5 Pro</option>
+                    </select>
+                </div>
+                
+                <!-- Clear Memory Button -->
+                <button id="clear-chat-btn" class="clear-btn" title="Clear Chat Memory">
+                    <i class="fa-solid fa-trash-can"></i>
+                    <span>Clear Memory</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- Main Workspace -->
+        <main class="chat-workspace">
+            <!-- Messages Log -->
+            <div id="chat-messages" class="chat-messages-container">
+                <!-- Welcome View (Default State) -->
+                <div id="welcome-view" class="welcome-container">
+                    <div class="welcome-badge">
+                        <i class="fa-solid fa-sparkles"></i> Session Memory Active
+                    </div>
+                    <h2>How can I help you today?</h2>
+                    <p class="welcome-subtitle">I'm equipped with active session memory, meaning I'll remember everything we talk about in this chat session.</p>
+                    
+                    <div class="welcome-cards">
+                        <div class="suggestion-card" data-prompt="Let's play a memory test. Remember that my favorite color is crimson red.">
+                            <div class="card-icon"><i class="fa-solid fa-paint-brush"></i></div>
+                            <h3>Memory Test</h3>
+                            <p>Tell me a detail (e.g. favorite color) and ask me to recall it later.</p>
+                        </div>
+                        <div class="suggestion-card" data-prompt="Explain how a session-based memory system works in LLM applications.">
+                            <div class="card-icon"><i class="fa-solid fa-gears"></i></div>
+                            <h3>How Memory Works</h3>
+                            <p>Learn how the complete history is sent back-and-forth to provide context.</p>
+                        </div>
+                        <div class="suggestion-card" data-prompt="Write a short, engaging story about an AI that learns it has memory.">
+                            <div class="card-icon"><i class="fa-solid fa-pen-nib"></i></div>
+                            <h3>Creative Writing</h3>
+                            <p>Ask for a creative story, poem, or code block utilizing memory context.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Chat Messages are dynamically appended here -->
+                
+                <!-- Typing/Loading Indicator -->
+                <div id="typing-indicator" class="message-wrapper model-wrapper hidden">
+                    <div class="avatar model-avatar">
+                        <i class="fa-solid fa-robot"></i>
+                    </div>
+                    <div class="message-bubble model-bubble typing-bubble">
+                        <div class="typing-dot"></div>
+                        <div class="typing-dot"></div>
+                        <div class="typing-dot"></div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Footer Input Bar -->
+        <footer class="app-footer">
+            <form id="chat-form" class="chat-input-form">
+                <div class="input-wrapper">
+                    <input type="text" id="chat-input" placeholder="Type your message here..." autocomplete="off" required>
+                    <button type="submit" id="send-btn" class="send-btn" disabled>
+                        <i class="fa-solid fa-paper-plane"></i>
+                    </button>
+                </div>
+            </form>
+            <div class="footer-note">
+                <span>Session ID: <span id="session-display">Initializing...</span></span>
+                <span class="separator">•</span>
+                <span>Powered by Gemini API</span>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Main JavaScript Logic -->
+    <script src="app.js"></script>
+</body>
+</html>
